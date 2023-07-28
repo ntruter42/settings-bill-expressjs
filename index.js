@@ -2,6 +2,7 @@ import express from 'express';
 import { engine } from 'express-handlebars';
 import bodyParser from 'body-parser';
 import SettingsBill from './settings-bill.js';
+import moment from "moment";
 
 const app = express();
 const settingsBill = SettingsBill();
@@ -20,7 +21,8 @@ app.use(bodyParser.json())
 app.get('/', function (req, res) {
 	res.render('index', {
 		'settings': settingsBill.getSettings(),
-		'totals': settingsBill.totals()
+		'totals': settingsBill.totals(),
+		'totalClass': settingsBill.totalClass()
 	});
 });
 
@@ -41,7 +43,11 @@ app.post('/action', function (req, res) {
 });
 
 app.get('/actions', function (req, res) {
-	res.render('actions', { 'actions': settingsBill.actions() });
+	res.render('actions', {
+		'actions': settingsBill.actions().map(action => {
+			action.relative = moment(action.timestamp).startOf('second').fromNow();
+			return action;
+	}) });
 });
 
 app.get('/actions/:type', function (req, res) {
@@ -52,5 +58,5 @@ app.get('/actions/:type', function (req, res) {
 const PORT = process.env.PORT || 3005;
 
 app.listen(PORT, function () {
-	console.log("App started");
-})
+	console.log(`App started on PORT: ${PORT}`);
+});

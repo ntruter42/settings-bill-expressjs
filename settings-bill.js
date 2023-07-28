@@ -33,11 +33,14 @@ export default function SettingsBill() {
 			cost = callCost;
 		}
 
-		actionList.push({
-			type: action,
-			cost,
-			timestamp: new Date()
-		});
+		if (!hasReachedCriticalLevel()) {
+			actionList.push({
+				type: action,
+				cost,
+				timestamp: new Date(),
+				relative: ''
+			});
+		}
 	}
 
 	function actions() {
@@ -89,6 +92,18 @@ export default function SettingsBill() {
 		}
 	}
 
+	function totalClass() {
+		return getClassName();
+	}
+
+	function getClassName() {
+		if (hasReachedWarningLevel()) {
+			return 'warning';
+		} else if (hasReachedCriticalLevel()) {
+			return 'danger';
+		}
+	}
+
 	function hasReachedWarningLevel() {
 		const total = grandTotal();
 		const reachedWarningLevel = total >= warningLevel
@@ -109,6 +124,7 @@ export default function SettingsBill() {
 		actions,
 		actionsFor,
 		totals,
+		totalClass,
 		hasReachedWarningLevel,
 		hasReachedCriticalLevel
 	}
