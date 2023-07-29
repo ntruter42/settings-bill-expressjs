@@ -10,9 +10,13 @@
 	{{#each actions}}
 	<tr>
 		<td>{{type}}</td>
-		<td>{{cost}}</td>
+		<td>R{{cost}}</td>
 		<td>{{timestamp}} - {{relative}}</td>
 	</tr>
 	{{/each}}
+	<tr>
+		<td>Total</td>
+		<td colspan="2">R{{total}}</td>
+	</tr>
 </table>
 </div>

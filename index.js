@@ -47,12 +47,17 @@ app.get('/actions', function (req, res) {
 		'actions': settingsBill.actions().map(action => {
 			action.relative = moment(action.timestamp).startOf('second').fromNow();
 			return action;
-	}) });
+		}),
+		'total': settingsBill.grandTotal()
+	});
 });
 
 app.get('/actions/:type', function (req, res) {
 	const actionType = req.params.type;
-	res.render('actions', { 'actions': settingsBill.actionsFor(actionType) });
+	res.render('actions', {
+		'actions': settingsBill.actionsFor(actionType),
+		'total': settingsBill.getTotal(actionType)
+	});
 });
 
 const PORT = process.env.PORT || 3005;

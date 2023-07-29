@@ -33,7 +33,7 @@ export default function SettingsBill() {
 			cost = callCost;
 		}
 
-		if (!hasReachedCriticalLevel()) {
+		if (action && !hasReachedCriticalLevel()) {
 			actionList.push({
 				type: action,
 				cost,
@@ -123,6 +123,8 @@ export default function SettingsBill() {
 		recordAction,
 		actions,
 		actionsFor,
+		getTotal,
+		grandTotal,
 		totals,
 		totalClass,
 		hasReachedWarningLevel,
