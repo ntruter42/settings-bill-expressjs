@@ -8,10 +8,12 @@ export default function SettingsBill() {
 	let actionList = [];
 
 	function setSettings(settings) {
-		smsCost = Number(settings.smsCost);
-		callCost = Number(settings.callCost);
-		warningLevel = settings.warningLevel;
-		criticalLevel = settings.criticalLevel;
+		if (!Object.values(settings).some(value => value <= 0)) {
+			smsCost = Number(settings.smsCost);
+			callCost = Number(settings.callCost);
+			warningLevel = settings.warningLevel;
+			criticalLevel = settings.criticalLevel;
+		}
 	}
 
 	function getSettings() {
@@ -24,58 +26,45 @@ export default function SettingsBill() {
 	}
 
 	function recordAction(action) {
-
 		let cost = 0;
-		if (action === 'sms') {
-			cost = smsCost;
-		}
-		else if (action === 'call') {
-			cost = callCost;
+		if (action && !hasReachedCriticalLevel() && Object.values(getSettings()).every(value => value > 0)) {
+
+			if (action === 'sms') {
+				cost = smsCost;
+			}
+			else if (action === 'call') {
+				cost = callCost;
+			}
 		}
 
-		if (action && !hasReachedCriticalLevel()) {
-			actionList.push({
-				type: action,
-				cost,
-				timestamp: new Date(),
-				relative: ''
-			});
-		}
+		actionList.push({
+			type: action,
+			cost,
+			time: new Date()
+		});
 	}
 
 	function actions() {
-		return actionList;
+		return actionList.filter((action) => action.cost > 0);
 	}
 
 	function actionsFor(type) {
-		const filteredActions = [];
+		return actionList.filter((action) => action.cost > 0 && action.type === type);
+	}
 
-		for (let index = 0; index < actionList.length; index++) {
-			const action = actionList[index];
-			if (action.type === type) {
-				filteredActions.push(action);
-			}
+	function lastAction() {
+		if (actionList.length > 0) {
+			return actionList[actionList.length - 1].type;
+		} else {
+			return '';
 		}
-
-		return filteredActions;
-
-		// return actionList.filter((action) => action.type === type);
 	}
 
 	function getTotal(type) {
-		let total = 0;
-		for (let index = 0; index < actionList.length; index++) {
-			const action = actionList[index];
-			if (action.type === type) {
-				total += action.cost;
-			}
-		}
-		return total;
-
-		// return actionList.reduce((total, action) => { 
-		//     let val = action.type === type ? action.cost : 0;
-		//     return total + val;
-		// }, 0);
+		return actionList.reduce((total, action) => {
+			let val = action.type === type ? action.cost : 0;
+			return total + val;
+		}, 0);
 	}
 
 	function grandTotal() {
@@ -83,12 +72,12 @@ export default function SettingsBill() {
 	}
 
 	function totals() {
-		let smsTotal = getTotal('sms')
-		let callTotal = getTotal('call')
+		let smsTotal = getTotal('sms').toFixed(2);
+		let callTotal = getTotal('call').toFixed(2);
 		return {
 			smsTotal,
 			callTotal,
-			grandTotal: grandTotal()
+			grandTotal: grandTotal().toFixed(2)
 		}
 	}
 
@@ -123,6 +112,7 @@ export default function SettingsBill() {
 		recordAction,
 		actions,
 		actionsFor,
+		lastAction,
 		getTotal,
 		grandTotal,
 		totals,

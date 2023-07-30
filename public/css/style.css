@@ -20,3 +20,12 @@
   font-weight: bold;
   font-size: 2em;
 }
+
+button {
+	background: linear-gradient(45deg, #3FF, #3CF) !important;
+	color: black !important;
+}
+
+.hidden {
+	display: none;
+}

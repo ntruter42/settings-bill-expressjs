@@ -22,7 +22,9 @@ app.get('/', function (req, res) {
 	res.render('index', {
 		'settings': settingsBill.getSettings(),
 		'totals': settingsBill.totals(),
-		'totalClass': settingsBill.totalClass()
+		'totalClass': settingsBill.totalClass(),
+		'callChecked': settingsBill.lastAction() === 'call' ? 'checked' : '',
+		'smsChecked': settingsBill.lastAction() === 'sms' ? 'checked' : ''
 	});
 });
 
@@ -31,7 +33,8 @@ app.post('/settings', function (req, res) {
 		callCost: req.body.callCost,
 		smsCost: req.body.smsCost,
 		warningLevel: req.body.warningLevel,
-		criticalLevel: req.body.criticalLevel
+		criticalLevel: req.body.criticalLevel,
+		actionType: req.body.actionType
 	});
 
 	res.redirect('/');
@@ -45,10 +48,12 @@ app.post('/action', function (req, res) {
 app.get('/actions', function (req, res) {
 	res.render('actions', {
 		'actions': settingsBill.actions().map(action => {
-			action.relative = moment(action.timestamp).startOf('second').fromNow();
+			action.timestamp = moment(action.time).format('ddd, D MMM YYYY, h:mm:ssa');
+			action.relative = moment(action.time).startOf('second').fromNow();
 			return action;
 		}),
-		'total': settingsBill.grandTotal()
+		'total': settingsBill.grandTotal(),
+		'class': settingsBill.grandTotal() > 0 ? '' : 'hidden'
 	});
 });
 
