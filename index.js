@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
 	res.render('index', {
-		'settings': settingsBill.getSettings(),
+		'settings': settingsBill.getSettings( ),
 		'totals': settingsBill.totals(),
 		'totalClass': settingsBill.totalClass(),
 		'callChecked': settingsBill.lastAction() === 'call' ? 'checked' : '',
@@ -45,14 +45,20 @@ app.post('/action', function (req, res) {
 	res.redirect('/');
 });
 
+app.post('/reset', function (req, res) {
+	settingsBill.resetTotals();
+	res.redirect('/');
+});
+
 app.get('/actions', function (req, res) {
 	res.render('actions', {
 		'actions': settingsBill.actions().map(action => {
+			action.price = action.cost.toFixed(2);
 			action.timestamp = moment(action.time).format('ddd, D MMM YYYY, h:mm:ssa');
 			action.relative = moment(action.time).startOf('second').fromNow();
 			return action;
 		}),
-		'total': settingsBill.grandTotal()
+		'total': settingsBill.grandTotal().toFixed(2)
 	});
 });
 

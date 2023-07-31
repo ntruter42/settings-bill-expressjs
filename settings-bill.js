@@ -81,6 +81,10 @@ export default function SettingsBill() {
 		}
 	}
 
+	function resetTotals() {
+		actionList = []
+	}
+
 	function totalClass() {
 		return getClassName();
 	}
@@ -115,6 +119,7 @@ export default function SettingsBill() {
 		lastAction,
 		getTotal,
 		grandTotal,
+		resetTotals,
 		totals,
 		totalClass,
 		hasReachedWarningLevel,
