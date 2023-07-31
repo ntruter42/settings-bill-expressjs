@@ -54,7 +54,7 @@ app.get('/actions', function (req, res) {
 	res.render('actions', {
 		'actions': settingsBill.actions().map(action => {
 			action.price = action.cost.toFixed(2);
-			action.timestamp = moment(action.time).format('ddd, D MMM YYYY, h:mm:ssa');
+			// action.timestamp = moment(action.time).format('ddd, D MMM YYYY, h:mm:ssa');
 			action.relative = moment(action.time).startOf('second').fromNow();
 			return action;
 		}),
@@ -65,12 +65,17 @@ app.get('/actions', function (req, res) {
 app.get('/actions/:type', function (req, res) {
 	const actionType = req.params.type;
 	res.render('actions', {
-		'actions': settingsBill.actionsFor(actionType),
-		'total': settingsBill.getTotal(actionType)
+		'actions': settingsBill.actionsFor(actionType).map(action => {
+			action.price = action.cost.toFixed(2);
+			// action.timestamp = moment(action.time).format('ddd, D MMM YYYY, h:mm:ssa');
+			action.relative = moment(action.time).startOf('second').fromNow();
+			return action;
+		}),
+		'total': settingsBill.getTotal(actionType).toFixed(2)
 	});
 });
 
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function () {
 	console.log(`App started on PORT: ${PORT}`);
