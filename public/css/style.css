@@ -1,29 +1,41 @@
 .box {
-  padding: 0.75em;
-  border-radius : 0.5em;
-  border : 1px solid #ddd;
-  height: auto;
-  margin-bottom: 1em;
+	background: linear-gradient(-45deg, #ffe, #eef);
+	padding: 0.75em;
+	border-radius: 0.5em;
+	border: 1px solid #ddd;
+	height: auto;
+	margin-bottom: 1em;
 }
 
 .warning {
-  color: orange;
-  font-weight: bold;
+	color: orange;
+	font-weight: bold;
 }
 
 .danger {
-  color: crimson;
-  font-weight: bold;
+	color: crimson;
+	font-weight: bold;
 }
 
 .total {
-  font-weight: bold;
-  font-size: 2em;
+	font-weight: bold;
+	font-size: 2em;
 }
 
 button {
 	background: linear-gradient(45deg, #3FF, #3CF) !important;
 	color: black !important;
+}
+
+a {
+	text-decoration: none;
+	padding: 0.75rem 0.75rem 0.25rem 0.5rem;
+}
+
+a:hover {
+	color: black;
+	outline: 1px solid #33C3F0;
+	border-radius: 0.25rem;
 }
 
 .hidden {

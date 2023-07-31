@@ -1,22 +1,25 @@
 <div class="twelve columns box">
-<h3>Actions</h3>
+	<h3>Actions</h3>
 
-<table>
-	<tr>
-		<th>Type</th>
-		<th>Price</th>
-		<th>When</th>
-	</tr>
-	{{#each actions}}
-	<tr>
-		<td>{{type}}</td>
-		<td>R{{cost}}</td>
-		<td>{{timestamp}} - {{relative}}</td>
-	</tr>
-	{{/each}}
-	<tr class="{{class}}">
-		<th>Total</th>
-		<td colspan="2">R{{total}}</td> 
-	</tr>
-</table>
+	<table>
+		<tr class="{{class}}">
+			<th>Type</th>
+			<th>Price</th>
+			<th>When</th>
+		</tr>
+		<tr>
+			<td class="{{message}}" colspan="3">There are no actions recorded yet.</td>
+		</tr>
+		{{#each actions}}
+		<tr>
+			<td>{{type}}</td>
+			<td>R{{cost}}</td>
+			<td>{{timestamp}} - {{relative}}</td>
+		</tr>
+		{{/each}}
+		<tr class="{{class}}">
+			<th>Total</th>
+			<td colspan="2">R{{total}}</td>
+		</tr>
+	</table>
 </div>

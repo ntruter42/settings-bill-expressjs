@@ -53,7 +53,8 @@ app.get('/actions', function (req, res) {
 			return action;
 		}),
 		'total': settingsBill.grandTotal(),
-		'class': settingsBill.grandTotal() > 0 ? '' : 'hidden'
+		'class': settingsBill.grandTotal() > 0 ? '' : 'hidden',
+		'message': settingsBill.grandTotal() > 0 ? 'hidden' : ''
 	});
 });
 
