@@ -2,13 +2,10 @@
 	<h3>Actions</h3>
 
 	<table>
-		<tr class="{{class}}">
+		<tr>
 			<th>Type</th>
 			<th>Price</th>
 			<th>When</th>
-		</tr>
-		<tr>
-			<td class="{{message}}" colspan="3">There are no actions recorded yet.</td>
 		</tr>
 		{{#each actions}}
 		<tr>
@@ -17,7 +14,7 @@
 			<td>{{timestamp}} - {{relative}}</td>
 		</tr>
 		{{/each}}
-		<tr class="{{class}}">
+		<tr>
 			<th>Total</th>
 			<td colspan="2">R{{total}}</td>
 		</tr>

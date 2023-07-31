@@ -52,9 +52,7 @@ app.get('/actions', function (req, res) {
 			action.relative = moment(action.time).startOf('second').fromNow();
 			return action;
 		}),
-		'total': settingsBill.grandTotal(),
-		'class': settingsBill.grandTotal() > 0 ? '' : 'hidden',
-		'message': settingsBill.grandTotal() > 0 ? 'hidden' : ''
+		'total': settingsBill.grandTotal()
 	});
 });
 
